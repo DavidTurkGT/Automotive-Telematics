@@ -3,6 +3,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.*;
 import java.lang.reflect.Array;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -129,13 +130,14 @@ public class TelematicsService {
         html.remove(18);
         html.remove(17);
         //Create table rows for every report
+        DecimalFormat df = new DecimalFormat("0.#");
         for(int i =0; i < reports.length; i++){
             html.add("<tr>");
-            html.add("<td align=\"center\">"+ reports[i].getVin() + "</td>" +
-                    "<td align=\"center\">" + reports[i].getOdometer() + "</td>" +
-                    "<td align=\"center\">" + reports[i].getConsumption() + "</td>" +
-                    "<td align=\"center\">" + reports[i].getOdometerForLastOilChange() + "</td>" +
-                    "<td align=\"center\">" + reports[i].getEngineSize() + "</td>");
+            html.add("<td align=\"center\">"+ df.format( reports[i].getVin() ) + "</td>" +
+                    "<td align=\"center\">" + df.format( reports[i].getOdometer() ) + "</td>" +
+                    "<td align=\"center\">" + df.format( reports[i].getConsumption() ) + "</td>" +
+                    "<td align=\"center\">" + df.format( reports[i].getOdometerForLastOilChange() ) + "</td>" +
+                    "<td align=\"center\">" + df.format( reports[i].getEngineSize() ) + "</td>");
             html.add("</tr>");
         }
         //Add back the last three closing tags
@@ -150,6 +152,7 @@ public class TelematicsService {
 
     private static String[] updateDashboard(String[] dashboard, VehicleInfo[] reports){
         //Update Averages
+        DecimalFormat df = new DecimalFormat("0.#");
         dashboard[3] = dashboard[3].replace("#",reports.length+"");
         double totalOdometer = 0;
         double totalConsumption = 0;
@@ -161,10 +164,10 @@ public class TelematicsService {
             totalLastOilChange += report.getOdometerForLastOilChange();
             totalEngineSize += report.getEngineSize();
         }
-        dashboard[9] = dashboard[9].replaceFirst("#", (totalOdometer/reports.length)+"");
-        dashboard[9] = dashboard[9].replaceFirst("#",(totalConsumption/reports.length)+"");
-        dashboard[9] = dashboard[9].replaceFirst("#",(totalLastOilChange/reports.length)+"");
-        dashboard[9] = dashboard[9].replaceFirst("#",(totalEngineSize/reports.length)+"");
+        dashboard[9] = dashboard[9].replaceFirst("#", df.format(totalOdometer/reports.length) );
+        dashboard[9] = dashboard[9].replaceFirst("#",df.format( totalConsumption/reports.length) );
+        dashboard[9] = dashboard[9].replaceFirst("#",df.format(totalLastOilChange/reports.length) );
+        dashboard[9] = dashboard[9].replaceFirst("#",df.format(totalEngineSize/reports.length) );
         return dashboard;
     }
 

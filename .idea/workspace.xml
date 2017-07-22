@@ -4,7 +4,7 @@
     <list default="true" id="941987ab-a7a2-4a30-9069-1d6e2c677784" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Automotive-Telematics/TelematicsService.class" afterPath="$PROJECT_DIR$/out/production/Automotive-Telematics/TelematicsService.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dashboard-template.html" afterPath="$PROJECT_DIR$/dashboard-template.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dashboard.html" afterPath="$PROJECT_DIR$/dashboard.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/TelematicsService.java" afterPath="$PROJECT_DIR$/src/TelematicsService.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -33,16 +33,14 @@
       <file leaf-file-name="TelematicsService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/TelematicsService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="100">
-              <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+            <state relative-caret-position="418">
+              <caret line="169" column="95" lean-forward="false" selection-start-line="169" selection-start-column="95" selection-end-line="169" selection-end-column="95" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#saveVehicleInfoToJson#0;class#TelematicsService#0" expanded="false" />
                 <element signature="method#findAllJsonFiles#0;class#TelematicsService#0" expanded="false" />
                 <element signature="method#extractJsonStrings#0;class#TelematicsService#0" expanded="false" />
                 <element signature="method#createVehicleInfoReports#0;class#TelematicsService#0" expanded="false" />
-                <element signature="method#createDashboard#0;class#TelematicsService#0" expanded="false" />
-                <element signature="method#updateDashboard#0;class#TelematicsService#0" expanded="false" />
                 <element signature="method#saveDashboard#0;class#TelematicsService#0" expanded="false" />
               </folding>
             </state>
@@ -406,7 +404,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -417,7 +414,7 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32942554" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -522,16 +519,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TelematicsService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="100">
-          <caret line="14" column="0" lean-forward="true" selection-start-line="14" selection-start-column="0" selection-end-line="14" selection-end-column="0" />
+        <state relative-caret-position="418">
+          <caret line="169" column="95" lean-forward="false" selection-start-line="169" selection-start-column="95" selection-end-line="169" selection-end-column="95" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#saveVehicleInfoToJson#0;class#TelematicsService#0" expanded="false" />
             <element signature="method#findAllJsonFiles#0;class#TelematicsService#0" expanded="false" />
             <element signature="method#extractJsonStrings#0;class#TelematicsService#0" expanded="false" />
             <element signature="method#createVehicleInfoReports#0;class#TelematicsService#0" expanded="false" />
-            <element signature="method#createDashboard#0;class#TelematicsService#0" expanded="false" />
-            <element signature="method#updateDashboard#0;class#TelematicsService#0" expanded="false" />
             <element signature="method#saveDashboard#0;class#TelematicsService#0" expanded="false" />
           </folding>
         </state>
