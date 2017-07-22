@@ -40,15 +40,13 @@ public class TelematicsService {
         System.out.println("Done!");
 
         //Update an dashboard.html
-        System.out.println("Updating dashboard.html...");
+        System.out.print("Updating dashboard.html...");
         String[] dashboardHTML = createDashboard(reports);
-        dashboardHTML[3] = dashboardHTML[3].replace("#",reports.length+"");
-        System.out.println("Read in the following HTML");
-        for(int i = 0; i < dashboardHTML.length; i++){
-            System.out.print("Index " + i + ": ");
-            System.out.println(dashboardHTML[i]);
-        }
-        saveDashboard(dashboardHTML);
+        System.out.println("Updated!");
+        System.out.print("Saving dashboard.html...");
+        File dashboard = saveDashboard(dashboardHTML);
+        System.out.println("Saved!");
+        System.out.println("Report can be viewed at: " + dashboard.getAbsolutePath() );
     }
 
     private static void saveVehicleInfoToJson(VehicleInfo vi) throws JsonProcessingException {
@@ -126,12 +124,32 @@ public class TelematicsService {
             System.out.println("ERROR! Cannot find Dashboard Template");
             e.printStackTrace();
         }
+        //Cut off the last three closing tags (to be added back later)
+        html.remove(19);
+        html.remove(18);
+        html.remove(17);
+        //Create table rows for every report
+        for(int i =0; i < reports.length; i++){
+            html.add("<tr>");
+            html.add("<td align=\"center\">"+ reports[i].getVin() + "</td>" +
+                    "<td align=\"center\">" + reports[i].getOdometer() + "</td>" +
+                    "<td align=\"center\">" + reports[i].getConsumption() + "</td>" +
+                    "<td align=\"center\">" + reports[i].getOdometerForLastOilChange() + "</td>" +
+                    "<td align=\"center\">" + reports[i].getEngineSize() + "</td>");
+            html.add("</tr>");
+        }
+        //Add back the last three closing tags
+        html.add("</table>");
+        html.add("</body>");
+        html.add("</hmtl>");
+
         String[] dashboard = html.toArray(new String[0]);
         dashboard = updateDashboard(dashboard, reports);
         return dashboard;
     }
 
     private static String[] updateDashboard(String[] dashboard, VehicleInfo[] reports){
+        //Update Averages
         dashboard[3] = dashboard[3].replace("#",reports.length+"");
         double totalOdometer = 0;
         double totalConsumption = 0;
@@ -150,9 +168,19 @@ public class TelematicsService {
         return dashboard;
     }
 
-    private static void saveDashboard(String[] html){
-        //TODO
-        return;
+    private static File saveDashboard(String[] html){
+        File file = new File("dashboard.html");
+        try{
+            FileWriter fileWriter = new FileWriter(file);
+            for(String line : html){
+                fileWriter.write(line + "\n");
+            }
+            fileWriter.close();
+        } catch (IOException e){
+            System.out.println("Error in writing dashboard.html. Exiting...");
+            e.printStackTrace();
+        }
+        return file;
     }
 
 }
