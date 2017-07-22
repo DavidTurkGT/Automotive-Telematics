@@ -32,11 +32,14 @@
       <file leaf-file-name="TelematicsService.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/TelematicsService.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="32" column="32" lean-forward="false" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+            <state relative-caret-position="293">
+              <caret line="39" column="33" lean-forward="false" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="method#saveVehicleInfoToJson#0;class#TelematicsService#0" expanded="false" />
+                <element signature="method#findAllJsonFiles#0;class#TelematicsService#0" expanded="false" />
+                <element signature="method#extractJsonStrings#0;class#TelematicsService#0" expanded="false" />
+                <element signature="method#createVehicleInfoReports#0;class#TelematicsService#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -434,7 +437,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="2" />
+      <option name="time" value="5" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -505,11 +508,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/TelematicsService.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="257">
-          <caret line="32" column="32" lean-forward="false" selection-start-line="32" selection-start-column="32" selection-end-line="32" selection-end-column="32" />
+        <state relative-caret-position="293">
+          <caret line="39" column="33" lean-forward="false" selection-start-line="39" selection-start-column="33" selection-end-line="39" selection-end-column="33" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="method#saveVehicleInfoToJson#0;class#TelematicsService#0" expanded="false" />
+            <element signature="method#findAllJsonFiles#0;class#TelematicsService#0" expanded="false" />
+            <element signature="method#extractJsonStrings#0;class#TelematicsService#0" expanded="false" />
+            <element signature="method#createVehicleInfoReports#0;class#TelematicsService#0" expanded="false" />
           </folding>
         </state>
       </provider>

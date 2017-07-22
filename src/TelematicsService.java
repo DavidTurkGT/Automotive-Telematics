@@ -27,12 +27,18 @@ public class TelematicsService {
 
         //Find all the files that end with ".json" and convert back to a VehicleInfo object.
         System.out.println("Finding all vehicle info reports...");
+        System.out.print("\tFinding all JSON files...");
         File[] jsonFiles = findAllJsonFiles();
+        System.out.println("Found!");
+        System.out.print("\tExtracting JSON strings...");
         String[] jsonStrings = extractJsonStrings(jsonFiles);
-        for(String json : jsonStrings){
-            System.out.print("\tJSON content: ");
-            System.out.println(json);
+        System.out.println("Extracted!");
+        VehicleInfo[] reports = createVehicleInfoReports(jsonStrings);
+        for(VehicleInfo report : reports){
+            System.out.println("\tFound report for vehicle VIN " + report.getVin() );
         }
+        System.out.println("Done!");
+
 
         //For each JSON, create a vehicle info report
 //        File file = new File(".");
@@ -151,6 +157,21 @@ public class TelematicsService {
             }
         }
         return jsonStrings.toArray(new String[0]);
+    }
+
+    private static VehicleInfo[] createVehicleInfoReports(String[] jsonStrings){
+        ArrayList<VehicleInfo> reports = new ArrayList<>();
+        for(String json : jsonStrings){
+            try{
+                ObjectMapper mapper = new ObjectMapper();
+                VehicleInfo vi = mapper.readValue(json, VehicleInfo.class);
+                reports.add(vi);
+            } catch (IOException e) {
+                System.out.println("\t\tCreating vehicle info: Failure!");
+                e.printStackTrace();
+            }
+        }
+        return reports.toArray(new VehicleInfo[0]);
     }
 
 
