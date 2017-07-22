@@ -39,75 +39,16 @@ public class TelematicsService {
         }
         System.out.println("Done!");
 
-
-        //For each JSON, create a vehicle info report
-//        File file = new File(".");
-//        for (File f : file.listFiles()) {
-//            if (f.getName().endsWith(".json")) {
-//                //Create a VehileInfo object vi from a JSON file
-//                try{
-//                    Scanner fileScanner = new Scanner(f);
-//                    ArrayList<String> fileContents = new ArrayList<>();
-//                    while( fileScanner.hasNext() ){
-//                        fileContents.add( fileScanner.nextLine() );
-//                    }
-//                    json = fileContents.toArray(new String[0])[0];
-//                    System.out.println("\tRead the following JSON: " + json);
-//                    System.out.println("\tCreating a vehicle info report...");
-//                    VehicleInfo vi = null;
-//                    try{
-//                        ObjectMapper mapper = new ObjectMapper();
-//                        vi = mapper.readValue(json, VehicleInfo.class);
-//                    } catch (IOException e) {
-//                        System.out.println("\t\tCreating vehicle info: Failure!");
-//                        e.printStackTrace();
-//                    }
-//                    if(vi != null){
-//                        System.out.println("\t\tCreated vehicle info report: \n----------\n" + vi + "\n----------");
-//                    } else{
-//                        System.out.println("\t\tError! No vehicle info report created!");
-//                    }
-//                    System.out.println("\tCreate: Success!");
-//
-//                } catch (FileNotFoundException e){
-//                    System.out.println("Find: Failure! File not found!");
-//                    e.printStackTrace();
-//                }
-//                //Create a dashboard-template.html to display all info
-//                System.out.println("Creating dashboard.html from dashboard-template.html ...");
-//                File dashboardFile = new File("dashboard-template.html");
-//                String [] template = null;
-//                try{
-//                    Scanner fileScanner = new Scanner(dashboardFile);
-//                    ArrayList<String> templateContents = new ArrayList<>();
-//                    while( fileScanner.hasNext() ){
-//                        templateContents.add( fileScanner.nextLine() );
-//                    }
-//                    template = templateContents.toArray(new String[0]);
-//                } catch(FileNotFoundException e){
-//                    System.out.println("Error! dashboard-template.html not found");
-//                    e.printStackTrace();
-//                }
-//                if(template == null){
-//                    System.out.println("Error! Template never created");
-//                } else {
-//                    System.out.println("Template created. Here it is");
-//                    System.out.println("____________________________");
-//                    for(int i = 0; i < template.length; i++){
-//                        System.out.print("Index " + i + ": ");
-//                        System.out.println(template[i]);
-//                    }
-//                    System.out.println("-----------------------------");
-//                    System.out.println("End of template");
-//                }
-//
-//            }
-//        }
-//        System.out.println("Find: Success!");
-
-
-        //Update a dashboard-template.html (only show 1 place after the decimal for values that are doubles).
-        // The dashboard-template.html should look something like this (with the '#' replaced with a number)
+        //Update an dashboard.html
+        System.out.println("Updating dashboard.html...");
+        String[] dashboardHTML = createDashboard(reports);
+        dashboardHTML[3] = dashboardHTML[3].replace("#",reports.length+"");
+        System.out.println("Read in the following HTML");
+        for(int i = 0; i < dashboardHTML.length; i++){
+            System.out.print("Index " + i + ": ");
+            System.out.println(dashboardHTML[i]);
+        }
+        saveDashboard(dashboardHTML);
     }
 
     private static void saveVehicleInfoToJson(VehicleInfo vi) throws JsonProcessingException {
@@ -174,5 +115,44 @@ public class TelematicsService {
         return reports.toArray(new VehicleInfo[0]);
     }
 
+    private static String[] createDashboard(VehicleInfo[] reports){
+        ArrayList<String> html = new ArrayList<>();
+        try{
+            Scanner fileScanner = new Scanner(new File("dashboard-template.html"));
+            while( fileScanner.hasNext() ){
+                html.add( fileScanner.nextLine() );
+            }
+        } catch (FileNotFoundException e){
+            System.out.println("ERROR! Cannot find Dashboard Template");
+            e.printStackTrace();
+        }
+        String[] dashboard = html.toArray(new String[0]);
+        dashboard = updateDashboard(dashboard, reports);
+        return dashboard;
+    }
+
+    private static String[] updateDashboard(String[] dashboard, VehicleInfo[] reports){
+        dashboard[3] = dashboard[3].replace("#",reports.length+"");
+        double totalOdometer = 0;
+        double totalConsumption = 0;
+        double totalLastOilChange = 0;
+        double totalEngineSize = 0;
+        for(VehicleInfo report : reports){
+            totalOdometer += report.getOdometer();
+            totalConsumption += report.getConsumption();
+            totalLastOilChange += report.getOdometerForLastOilChange();
+            totalEngineSize += report.getEngineSize();
+        }
+        dashboard[9] = dashboard[9].replaceFirst("#", (totalOdometer/reports.length)+"");
+        dashboard[9] = dashboard[9].replaceFirst("#",(totalConsumption/reports.length)+"");
+        dashboard[9] = dashboard[9].replaceFirst("#",(totalLastOilChange/reports.length)+"");
+        dashboard[9] = dashboard[9].replaceFirst("#",(totalEngineSize/reports.length)+"");
+        return dashboard;
+    }
+
+    private static void saveDashboard(String[] html){
+        //TODO
+        return;
+    }
 
 }
