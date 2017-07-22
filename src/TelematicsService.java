@@ -12,7 +12,6 @@ import java.util.Scanner;
 public class TelematicsService {
 
     static void report(VehicleInfo vehicleInfo) throws JsonProcessingException {
-        String json;
 
         //Write the VehicleInfo to a file as json using the VIN as the name of the file and a "json" extension
         // (e.g. "234235435.json"). The file will overwrite any existing files for the same VIN.
@@ -28,69 +27,77 @@ public class TelematicsService {
 
         //Find all the files that end with ".json" and convert back to a VehicleInfo object.
         System.out.println("Finding all vehicle info reports...");
-        File file = new File(".");
-        for (File f : file.listFiles()) {
-            if (f.getName().endsWith(".json")) {
-                //Create a VehileInfo object vi from a JSON file
-                try{
-                    Scanner fileScanner = new Scanner(f);
-                    ArrayList<String> fileContents = new ArrayList<>();
-                    while( fileScanner.hasNext() ){
-                        fileContents.add( fileScanner.nextLine() );
-                    }
-                    json = fileContents.toArray(new String[0])[0];
-                    System.out.println("\tRead the following JSON: " + json);
-                    System.out.println("\tCreating a vehicle info report...");
-                    VehicleInfo vi = null;
-                    try{
-                        ObjectMapper mapper = new ObjectMapper();
-                        vi = mapper.readValue(json, VehicleInfo.class);
-                    } catch (IOException e) {
-                        System.out.println("\t\tCreating vehicle info: Failure!");
-                        e.printStackTrace();
-                    }
-                    if(vi != null){
-                        System.out.println("\t\tCreated vehicle info report: \n----------\n" + vi + "\n----------");
-                    } else{
-                        System.out.println("\t\tError! No vehicle info report created!");
-                    }
-                    System.out.println("\tCreate: Success!");
-
-                } catch (FileNotFoundException e){
-                    System.out.println("Find: Failure! File not found!");
-                    e.printStackTrace();
-                }
-                //Create a dashboard-template.html to display all info
-                System.out.println("Creating dashboard.html from dashboard-template.html ...");
-                File dashboardFile = new File("dashboard-template.html");
-                String [] template = null;
-                try{
-                    Scanner fileScanner = new Scanner(dashboardFile);
-                    ArrayList<String> templateContents = new ArrayList<>();
-                    while( fileScanner.hasNext() ){
-                        templateContents.add( fileScanner.nextLine() );
-                    }
-                    template = templateContents.toArray(new String[0]);
-                } catch(FileNotFoundException e){
-                    System.out.println("Error! dashboard-template.html not found");
-                    e.printStackTrace();
-                }
-                if(template == null){
-                    System.out.println("Error! Template never created");
-                } else {
-                    System.out.println("Template created. Here it is");
-                    System.out.println("____________________________");
-                    for(int i = 0; i < template.length; i++){
-                        System.out.print("Index " + i + ": ");
-                        System.out.println(template[i]);
-                    }
-                    System.out.println("-----------------------------");
-                    System.out.println("End of template");
-                }
-
-            }
+        File[] jsonFiles = findAllJsonFiles();
+        String[] jsonStrings = extractJsonStrings(jsonFiles);
+        for(String json : jsonStrings){
+            System.out.print("\tJSON content: ");
+            System.out.println(json);
         }
-        System.out.println("Find: Success!");
+
+        //For each JSON, create a vehicle info report
+//        File file = new File(".");
+//        for (File f : file.listFiles()) {
+//            if (f.getName().endsWith(".json")) {
+//                //Create a VehileInfo object vi from a JSON file
+//                try{
+//                    Scanner fileScanner = new Scanner(f);
+//                    ArrayList<String> fileContents = new ArrayList<>();
+//                    while( fileScanner.hasNext() ){
+//                        fileContents.add( fileScanner.nextLine() );
+//                    }
+//                    json = fileContents.toArray(new String[0])[0];
+//                    System.out.println("\tRead the following JSON: " + json);
+//                    System.out.println("\tCreating a vehicle info report...");
+//                    VehicleInfo vi = null;
+//                    try{
+//                        ObjectMapper mapper = new ObjectMapper();
+//                        vi = mapper.readValue(json, VehicleInfo.class);
+//                    } catch (IOException e) {
+//                        System.out.println("\t\tCreating vehicle info: Failure!");
+//                        e.printStackTrace();
+//                    }
+//                    if(vi != null){
+//                        System.out.println("\t\tCreated vehicle info report: \n----------\n" + vi + "\n----------");
+//                    } else{
+//                        System.out.println("\t\tError! No vehicle info report created!");
+//                    }
+//                    System.out.println("\tCreate: Success!");
+//
+//                } catch (FileNotFoundException e){
+//                    System.out.println("Find: Failure! File not found!");
+//                    e.printStackTrace();
+//                }
+//                //Create a dashboard-template.html to display all info
+//                System.out.println("Creating dashboard.html from dashboard-template.html ...");
+//                File dashboardFile = new File("dashboard-template.html");
+//                String [] template = null;
+//                try{
+//                    Scanner fileScanner = new Scanner(dashboardFile);
+//                    ArrayList<String> templateContents = new ArrayList<>();
+//                    while( fileScanner.hasNext() ){
+//                        templateContents.add( fileScanner.nextLine() );
+//                    }
+//                    template = templateContents.toArray(new String[0]);
+//                } catch(FileNotFoundException e){
+//                    System.out.println("Error! dashboard-template.html not found");
+//                    e.printStackTrace();
+//                }
+//                if(template == null){
+//                    System.out.println("Error! Template never created");
+//                } else {
+//                    System.out.println("Template created. Here it is");
+//                    System.out.println("____________________________");
+//                    for(int i = 0; i < template.length; i++){
+//                        System.out.print("Index " + i + ": ");
+//                        System.out.println(template[i]);
+//                    }
+//                    System.out.println("-----------------------------");
+//                    System.out.println("End of template");
+//                }
+//
+//            }
+//        }
+//        System.out.println("Find: Success!");
 
 
         //Update a dashboard-template.html (only show 1 place after the decimal for values that are doubles).
@@ -115,4 +122,36 @@ public class TelematicsService {
         }
         System.out.println("Save: Success!");
     }
+
+    private static File[] findAllJsonFiles(){
+        ArrayList<File> jsonFiles = new ArrayList<>();
+        File file = new File(".");
+        for (File f : file.listFiles()) {
+            if (f.getName().endsWith(".json")) {
+                jsonFiles.add(f);
+            }
+        }
+        return jsonFiles.toArray(new File[0]);
+    }
+
+    private static String[] extractJsonStrings(File[] jsonFiles){
+        ArrayList<String> jsonStrings = new ArrayList<>();
+        Scanner fileScanner;
+        for(File f : jsonFiles){
+            try {
+                fileScanner = new Scanner(f);
+                ArrayList<String> fileContents = new ArrayList<>();
+                while( fileScanner.hasNext() ){
+                    fileContents.add( fileScanner.nextLine() );
+                }
+                jsonStrings.add(fileContents.toArray(new String[0])[0]);
+            } catch (FileNotFoundException e) {
+                System.out.println("ERROR! File " + f.getPath() + " not found");
+                e.printStackTrace();
+            }
+        }
+        return jsonStrings.toArray(new String[0]);
+    }
+
+
 }
