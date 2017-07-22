@@ -12,29 +12,18 @@ import java.util.Scanner;
 public class TelematicsService {
 
     static void report(VehicleInfo vehicleInfo) throws JsonProcessingException {
-        ObjectMapper mapper;
         String json;
 
         //Write the VehicleInfo to a file as json using the VIN as the name of the file and a "json" extension
         // (e.g. "234235435.json"). The file will overwrite any existing files for the same VIN.
 
         //This writes a Java object to a json
-        mapper = new ObjectMapper();
-        json = mapper.writeValueAsString(vehicleInfo);
-        System.out.println("Saving the vehicle info...");
-        try {
-            File file = new File(vehicleInfo.getVin()+".json");
-            System.out.println("\tCreated file: " + file.getName() );
-            System.out.println("\tWriting to file...");
-            FileWriter fileWriter = new FileWriter(file);
-            fileWriter.write(json);
-            fileWriter.close();
-            System.out.println("\tWrite: Success!");
-        } catch (IOException e){
-            System.out.println("\tWrite: Failure! IOException printed below");
-            e.printStackTrace();
+        try{
+            saveVehicleInfoToJson(vehicleInfo);
+        } catch(JsonProcessingException jpe){
+            System.out.println("Error in saving to JSON");
+            jpe.printStackTrace();
         }
-        System.out.println("Save: Success!");
 
 
         //Find all the files that end with ".json" and convert back to a VehicleInfo object.
@@ -54,6 +43,7 @@ public class TelematicsService {
                     System.out.println("\tCreating a vehicle info report...");
                     VehicleInfo vi = null;
                     try{
+                        ObjectMapper mapper = new ObjectMapper();
                         vi = mapper.readValue(json, VehicleInfo.class);
                     } catch (IOException e) {
                         System.out.println("\t\tCreating vehicle info: Failure!");
@@ -105,5 +95,24 @@ public class TelematicsService {
 
         //Update a dashboard-template.html (only show 1 place after the decimal for values that are doubles).
         // The dashboard-template.html should look something like this (with the '#' replaced with a number)
+    }
+
+    private static void saveVehicleInfoToJson(VehicleInfo vi) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(vi);
+        System.out.println("Saving the vehicle info...");
+        try {
+            File file = new File(vi.getVin()+".json");
+            System.out.println("\tCreated file: " + file.getName() );
+            System.out.println("\tWriting to file...");
+            FileWriter fileWriter = new FileWriter(file);
+            fileWriter.write(json);
+            fileWriter.close();
+            System.out.println("\tWrite: Success!");
+        } catch (IOException e){
+            System.out.println("\tWrite: Failure! IOException printed below");
+            e.printStackTrace();
+        }
+        System.out.println("Save: Success!");
     }
 }
